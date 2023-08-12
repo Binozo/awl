@@ -16,11 +16,15 @@ add_executable(owl "")
 
 target_sources(owl ${SOURCES} owl.c)
 
-find_path(pcap_INCLUDE pcap.h REQUIRED)
-find_library(pcap_LIBRARY pcap REQUIRED)
+include_directories(/lib/arm-linux-gnueabihf)
+include_directories(/usr/include/)
 
-find_path(ev_INCLUDE ev.h PATHS /usr/local/include REQUIRED)
-find_library(ev_LIBRARY ev REQUIRED)
+find_path(pcap_INCLUDE pcap.h PATHS /usr/include/ REQUIRED)
+# change /lib/arm-linux-gnueabihf to aarch64-linux-gnu if you wish
+find_library(pcap_LIBRARY pcap PATHS /lib/arm-linux-gnueabihf REQUIRED)
+
+find_path(ev_INCLUDE ev.h PATHS /usr/include/ REQUIRED)
+find_library(ev_LIBRARY ev PATHS /lib/arm-linux-gnueabihf REQUIRED)
 
 if (APPLE)
     find_library(FOUNDATION Foundation REQUIRED)
@@ -28,9 +32,9 @@ if (APPLE)
     find_library(SYSTEMCONFIGURATION SystemConfiguration REQUIRED)
 else ()
     find_path(nl_INCLUDE netlink/version.h PATH_SUFFIXES libnl3 REQUIRED)
-    find_library(nl_LIBRARY nl-3 REQUIRED)
-    find_library(nlgenl_LIBRARY nl-genl-3 REQUIRED)
-    find_library(nlroute_LIBRARY nl-route-3 REQUIRED)
+    find_library(nl_LIBRARY nl-3 PATHS /lib/arm-linux-gnueabihf REQUIRED)
+    find_library(nlgenl_LIBRARY nl-genl-3 PATHS /lib/arm-linux-gnueabihf REQUIRED)
+    find_library(nlroute_LIBRARY nl-route-3 PATHS /lib/arm-linux-gnueabihf REQUIRED)
 endif ()
 
 target_include_directories(owl PRIVATE ${CMAKE_SOURCE_DIR}/src ${ev_INCLUDE} ${pcap_INCLUDE})
