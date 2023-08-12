@@ -16,7 +16,7 @@ struct circular_buf {
 
 static void advance_pointer(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	if(cbuf->full)
 	{
@@ -31,7 +31,7 @@ static void advance_pointer(cbuf_handle_t cbuf)
 
 static void retreat_pointer(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	cbuf->full = 0;
 	cbuf->tail = (cbuf->tail + 1) % cbuf->max;
@@ -39,31 +39,31 @@ static void retreat_pointer(cbuf_handle_t cbuf)
 
 cbuf_handle_t circular_buf_init(size_t size)
 {
-	assert(size);
+	//assert(size);
 
 	cbuf_handle_t cbuf = malloc(sizeof(struct circular_buf));
-	assert(cbuf);
+	//assert(cbuf);
 
 	cbuf->buffer = malloc(size * sizeof(void*));
 	cbuf->max = size;
 	circular_buf_reset(cbuf);
 
-	assert(circular_buf_empty(cbuf));
+	//assert(circular_buf_empty(cbuf));
 
 	return cbuf;
 }
 
 void circular_buf_free(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
-	assert(cbuf->buffer);
+	//assert(cbuf);
+	//assert(cbuf->buffer);
 	free(cbuf->buffer);
 	free(cbuf);
 }
 
 void circular_buf_reset(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	cbuf->head = 0;
 	cbuf->tail = 0;
@@ -72,7 +72,7 @@ void circular_buf_reset(cbuf_handle_t cbuf)
 
 size_t circular_buf_size(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	size_t size = cbuf->max;
 
@@ -94,14 +94,14 @@ size_t circular_buf_size(cbuf_handle_t cbuf)
 
 size_t circular_buf_capacity(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	return cbuf->max;
 }
 
 void circular_buf_put(cbuf_handle_t cbuf, void *data)
 {
-	assert(cbuf && cbuf->buffer);
+	//assert(cbuf && cbuf->buffer);
 
 	cbuf->buffer[cbuf->head] = data;
 
@@ -112,7 +112,7 @@ int circular_buf_put2(cbuf_handle_t cbuf, void *data)
 {
 	int r = -1;
 
-	assert(cbuf && cbuf->buffer);
+	//assert(cbuf && cbuf->buffer);
 
 	if(!circular_buf_full(cbuf))
 	{
@@ -126,7 +126,7 @@ int circular_buf_put2(cbuf_handle_t cbuf, void *data)
 
 int circular_buf_get(cbuf_handle_t cbuf, void **data, int peek)
 {
-	assert(cbuf && cbuf->buffer);
+	//assert(cbuf && cbuf->buffer);
 
 	int r = -1;
 
@@ -145,14 +145,14 @@ int circular_buf_get(cbuf_handle_t cbuf, void **data, int peek)
 
 int circular_buf_empty(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	return (!cbuf->full && (cbuf->head == cbuf->tail));
 }
 
 int circular_buf_full(cbuf_handle_t cbuf)
 {
-	assert(cbuf);
+	//assert(cbuf);
 
 	return cbuf->full;
 }
